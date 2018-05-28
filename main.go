@@ -9,28 +9,6 @@ import (
 )
 
 func getFilelist(root string) {
-	fv, e := os.OpenFile(root+"views/views.go", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
-	if e != nil {
-		fmt.Println("open views.go() failed:", e)
-		return
-	}
-	fv.WriteString(`
-package views
-import (
-	"bytes"
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
-	"io/ioutil"
-	"runtime"
-)
-func encodingGBK(src string) string {
-	if runtime.GOOS != "windows" {
-		return src
-	}
-	data, _ := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(src)), simplifiedchinese.GBK.NewEncoder()))
-	return string(data)
-}`)
-	fv.Close()
 	err := filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
 		if f == nil {
 			return err
