@@ -27,7 +27,7 @@ func getFilelist(root string) {
 		defer fo.Close()
 		_, e = fo.WriteString(`package views
 
-var Str_` + f.Name()[:len(f.Name())-5] + " =encodingGBK(`")
+var Str_` + f.Name()[:len(f.Name())-5] + " =`")
 		if e != nil {
 			fmt.Println("writeString() failed:", e)
 			return nil
@@ -43,7 +43,7 @@ var Str_` + f.Name()[:len(f.Name())-5] + " =encodingGBK(`")
 			fmt.Println("copy() failed:", e)
 			return nil
 		}
-		fo.WriteString("`)\n")
+		fo.WriteString("`\n")
 		fmt.Println(root + "views/" + f.Name()[:len(f.Name())-5] + ".go")
 		return nil
 	})
