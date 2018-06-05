@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/StevenZack/tools"
 	"io"
 	"os"
 	"path/filepath"
@@ -13,13 +14,17 @@ func getFilelist(root string) {
 		if f == nil {
 			return err
 		}
-		if f.IsDir() || isHiddenDir(path) {
+		if isHiddenDir(path) {
 			return nil
 		}
-		if f.Name()[len(f.Name())-5:] != ".html" {
+		if f.IsDir() {
 			return nil
 		}
-		fo, e := os.OpenFile(root+"views/"+f.Name()[:len(f.Name())-5]+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+		if !tools.EndsWith(f.Name(), ".html") && !tools.EndsWith(f.Name(), ".js") && !tools.EndsWith(f.Name(), ".css") {
+			// fmt.Println("skip ", f.Name())
+			return nil
+		}
+		fo, e := os.OpenFile(root+"views/"+getFirstName(f.Name())+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if e != nil {
 			fmt.Println("fo() failed:", e)
 			return nil
@@ -27,7 +32,7 @@ func getFilelist(root string) {
 		defer fo.Close()
 		_, e = fo.WriteString(`package views
 
-var Str_` + f.Name()[:len(f.Name())-5] + " =`")
+var Str_` + getFirstName(f.Name()) + " =`")
 		if e != nil {
 			fmt.Println("writeString() failed:", e)
 			return nil
@@ -44,7 +49,7 @@ var Str_` + f.Name()[:len(f.Name())-5] + " =`")
 			return nil
 		}
 		fo.WriteString("`\n")
-		fmt.Println(root + "views/" + f.Name()[:len(f.Name())-5] + ".go")
+		fmt.Println(root + "views/" + getFirstName(f.Name()) + ".go")
 		return nil
 	})
 	if err != nil {
@@ -58,6 +63,7 @@ func main() {
 		fmt.Println("getwd() failed:", e)
 		return
 	}
+	os.RemoveAll(getrpath(d) + "views")
 	os.MkdirAll(getrpath(d)+"views", 0755)
 	getFilelist(getrpath(d))
 }
@@ -75,4 +81,12 @@ func isHiddenDir(s string) bool {
 		return true
 	}
 	return false
+}
+func getFirstName(s string) string {
+	for i := 0; i < len(s); i++ {
+		if s[i:i+1] == "." {
+			return s[:i]
+		}
+	}
+	return s
 }
