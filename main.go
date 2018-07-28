@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/StevenZack/tools"
+	"github.com/StevenZack/tools/strToolkit"
 	"io"
 	"os"
 	"path/filepath"
@@ -20,7 +20,7 @@ func getFilelist(root string) {
 		if f.IsDir() {
 			return nil
 		}
-		if !tools.EndsWith(f.Name(), ".html") && !tools.EndsWith(f.Name(), ".js") && !tools.EndsWith(f.Name(), ".css") {
+		if !strToolkit.EndsWith(f.Name(), ".html") && !strToolkit.EndsWith(f.Name(), ".js") && !strToolkit.EndsWith(f.Name(), ".css") && !strToolkit.EndsWith(f.Name(), ".svg") {
 			// fmt.Println("skip ", f.Name())
 			return nil
 		}
