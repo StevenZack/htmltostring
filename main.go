@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/StevenZack/tools/strToolkit"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/StevenZack/tools/strToolkit"
 )
 
 func getFilelist(root string) {
@@ -56,8 +57,51 @@ var Str_` + getFirstName(f.Name()) + " =`")
 		fmt.Printf("filepath.Walk() returned %v\n", err)
 	}
 }
+func parseFile(fname string) {
+	f, e := os.Stat(fname)
+	if e != nil {
+		fmt.Println(`os.State error :`, e)
+		return
+	}
+	root, e := os.Getwd()
+	if e != nil {
+		fmt.Println(`getwd error :`, e)
+		return
+	}
+	fo, e := os.OpenFile(root+"/views/"+getFirstName(f.Name())+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if e != nil {
+		fmt.Println(`openfile error :`, e)
+		return
+	}
+	defer fo.Close()
+	_, e = fo.WriteString(`package views
 
+var Str_` + getFirstName(f.Name()) + " =`")
+	if e != nil {
+		fmt.Println("writeString() failed:", e)
+		return
+	}
+	fi, e := os.OpenFile(fname, os.O_RDONLY, 0644)
+	if e != nil {
+		fmt.Println("fi() failed:", e)
+		return
+	}
+	defer fi.Close()
+	_, e = io.Copy(fo, fi)
+	if e != nil {
+		fmt.Println("copy() failed:", e)
+		return
+	}
+	fo.WriteString("`\n")
+	fmt.Println(root + "views/" + getFirstName(f.Name()) + ".go")
+}
 func main() {
+	if len(os.Args) > 1 {
+		for _, v := range os.Args[1:] {
+			parseFile(v)
+		}
+		return
+	}
 	d, e := os.Getwd()
 	if e != nil {
 		fmt.Println("getwd() failed:", e)
