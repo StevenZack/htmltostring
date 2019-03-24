@@ -132,5 +132,6 @@ func getFirstName(s string) string {
 			return s[:i]
 		}
 	}
+	s = strings.Replace(s, "-", "_", -1)
 	return s
 }
