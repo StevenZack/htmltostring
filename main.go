@@ -6,8 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/StevenZack/tools/strToolkit"
 )
 
 func getFilelist(root string) {
@@ -21,7 +19,7 @@ func getFilelist(root string) {
 		if f.IsDir() {
 			return nil
 		}
-		if !strToolkit.EndsWith(f.Name(), ".html") && !strToolkit.EndsWith(f.Name(), ".js") && !strToolkit.EndsWith(f.Name(), ".css") && !strToolkit.EndsWith(f.Name(), ".svg") {
+		if !strings.HasSuffix(f.Name(), ".html") && !strings.HasSuffix(f.Name(), ".js") && !strings.HasSuffix(f.Name(), ".css") && !strings.HasSuffix(f.Name(), ".svg") {
 			// fmt.Println("skip ", f.Name())
 			return nil
 		}
