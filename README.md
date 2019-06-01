@@ -7,7 +7,7 @@ go get github.com/StevenZack/htmltostring
 
 # Get started
 
-## 1. Create a `hello` directory under your $GOPATH/src , and create a `main.go` file in it.
+## 1. Create a `hello` directory under your $GOPATH/src , and create  `hello/main.go`:
 
 ```go
 package main
@@ -24,7 +24,7 @@ func home(w http.ResponseWriter,r *http.Request){
 }
 ```
 
-## 2. Create a `html` directory under `hello`, and create a `index.html` in it.
+## 2. Create a `html` directory under `hello`, and create  `html/index.html`:
 
 ```html
 <!DOCTYPE html>
@@ -65,7 +65,7 @@ hello/
     └── index.go
 ```
 
-  Look , it just created a `index.go` file automatically , based on your `index.html` :
+  Look , it just created a `views/index.go` file automatically , based on your `html/index.html` :
   ```go
 package views
 
@@ -83,7 +83,7 @@ var Str_index =`<!DOCTYPE html>
 </html>`
 ```
 
-## Now you can use `index.html` as a Go string , in your `main.go`:
+## Now you can use `html/index.html` as a Go string , in your `main.go`:
 ```go
 package main
 
