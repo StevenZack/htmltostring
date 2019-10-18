@@ -11,8 +11,6 @@ import (
 	"github.com/StevenZack/htmltostring/logx"
 )
 
-var resMap = make(map[string]string)
-
 func getFilelist(root string) {
 	err := filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
 		if f == nil {

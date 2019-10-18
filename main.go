@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"github.com/StevenZack/htmltostring/logx"
 )
 
 func main() {
@@ -21,5 +23,12 @@ func main() {
 	}
 	os.RemoveAll(getrpath(d) + "views")
 	os.MkdirAll(getrpath(d)+"views", 0755)
+
+	e = rangeRes(getrpath(d))
+	if e != nil {
+		logx.Error(e)
+		return
+	}
+
 	getFilelist(getrpath(d))
 }

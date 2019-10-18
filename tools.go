@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -47,4 +48,18 @@ func readFile(fname string) (string, error) {
 		return "", e
 	}
 	return string(b), nil
+}
+
+func getRelativePath(path string) (string, error) {
+	wd, e := os.Getwd()
+	if e != nil {
+		logx.Error(e)
+		return "", e
+	}
+
+	if !strings.HasPrefix(path, wd) {
+		return "", errors.New("path is not in wd:" + path)
+	}
+
+	return path[len(getrpath(wd)):], nil
 }
