@@ -46,12 +46,26 @@ var Str_` + getFirstName(f.Name()) + " =`")
 			return e
 		}
 
-		tpl, e := template.New("name").Parse(input)
-		if e != nil {
-			logx.Error(e)
-			return e
+		if *templateUse {
+			tpl, e := template.New("name").Parse(input)
+			if e != nil {
+				logx.Error(e)
+				return e
+			}
+			tpl.Execute(fo, resMap)
+		} else {
+			fi, e := os.OpenFile(path, os.O_RDONLY, 0644)
+			if e != nil {
+				logx.Error(e)
+				return e
+			}
+			defer fi.Close()
+			_, e = io.Copy(fo, fi)
+			if e != nil {
+				logx.Error(e)
+				return e
+			}
 		}
-		tpl.Execute(fo, resMap)
 
 		fo.WriteString("`\n")
 		fmt.Println(root + "views/" + getFirstName(f.Name()) + ".go")

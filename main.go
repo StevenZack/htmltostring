@@ -1,13 +1,19 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
 	"github.com/StevenZack/htmltostring/logx"
 )
 
+var (
+	templateUse = flag.Bool("t", false, "Use template engine")
+)
+
 func main() {
+	flag.Parse()
 	fmt.Println("started..")
 
 	if len(os.Args) > 1 {
