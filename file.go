@@ -8,6 +8,8 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/StevenZack/tools/strToolkit"
+
 	"github.com/StevenZack/htmltostring/logx"
 )
 
@@ -26,7 +28,8 @@ func getFilelist(root string) {
 			// fmt.Println("skip ", f.Name())
 			return nil
 		}
-		fo, e := os.OpenFile(root+"views/"+getFirstName(f.Name())+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+		name := strToolkit.ToCamelCase(strings.Replace(f.Name(), ".", "_", -1))
+		fo, e := os.OpenFile(root+"views/"+name+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if e != nil {
 			fmt.Println("fo() failed:", e)
 			return nil
@@ -34,7 +37,7 @@ func getFilelist(root string) {
 		defer fo.Close()
 		_, e = fo.WriteString(`package views
 
-var Str_` + getFirstName(f.Name()) + " =`")
+var Str_` + name + " =`")
 		if e != nil {
 			fmt.Println("writeString() failed:", e)
 			return nil
@@ -68,7 +71,7 @@ var Str_` + getFirstName(f.Name()) + " =`")
 		}
 
 		fo.WriteString("`\n")
-		fmt.Println(root + "views/" + getFirstName(f.Name()) + ".go")
+		fmt.Println(root + "views/" + name + ".go")
 		return nil
 	})
 	if err != nil {
