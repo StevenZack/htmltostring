@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/StevenZack/htmltostring/logx"
@@ -62,4 +63,12 @@ func getRelativePath(path string) (string, error) {
 	}
 
 	return path[len(getrpath(wd)):], nil
+}
+
+func stringifyBytes(bs []byte) string {
+	builder := &strings.Builder{}
+	for _, b := range bs {
+		builder.WriteString(strconv.FormatInt(int64(b), 10) + ",")
+	}
+	return strings.TrimSuffix(builder.String(), ",")
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -37,19 +38,18 @@ func getFilelist(root string) {
 		defer fo.Close()
 		_, e = fo.WriteString(`package views
 
-var Str_` + name + " =`")
+var Bytes_` + name + " =[]byte{")
 		if e != nil {
 			fmt.Println("writeString() failed:", e)
 			return nil
 		}
 
-		input, e := readFile(path)
-		if e != nil {
-			logx.Error(e)
-			return e
-		}
-
 		if *templateUse {
+			input, e := readFile(path)
+			if e != nil {
+				logx.Error(e)
+				return e
+			}
 			tpl, e := template.New("name").Parse(input)
 			if e != nil {
 				logx.Error(e)
@@ -63,14 +63,15 @@ var Str_` + name + " =`")
 				return e
 			}
 			defer fi.Close()
-			_, e = io.Copy(fo, fi)
+			bs, e := ioutil.ReadAll(fi)
 			if e != nil {
 				logx.Error(e)
 				return e
 			}
+			fo.WriteString(stringifyBytes(bs))
 		}
 
-		fo.WriteString("`\n")
+		fo.WriteString("}\n")
 		fmt.Println(root + "views/" + name + ".go")
 		return nil
 	})
