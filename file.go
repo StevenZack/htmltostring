@@ -25,11 +25,17 @@ func getFilelist(root string) {
 		if f.IsDir() {
 			return nil
 		}
-		if !strings.HasSuffix(f.Name(), ".html") && !strings.HasSuffix(f.Name(), ".js") && !strings.HasSuffix(f.Name(), ".tis") && !strings.HasSuffix(f.Name(), ".css") && !strings.HasSuffix(f.Name(), ".svg") {
+		if !(strings.HasSuffix(f.Name(), ".html") ||
+			strings.HasSuffix(f.Name(), ".js") ||
+			strings.HasSuffix(f.Name(), ".tis") ||
+			strings.HasSuffix(f.Name(), ".css") ||
+			strings.HasSuffix(f.Name(), ".woff") ||
+			strings.HasSuffix(f.Name(), ".woff2") ||
+			strings.HasSuffix(f.Name(), ".svg")) {
 			// fmt.Println("skip ", f.Name())
 			return nil
 		}
-		name := strToolkit.ToCamelCase(strings.Replace(f.Name(), ".", "_", -1))
+		name := strToolkit.ToCamelCase(strings.Replace(strings.Replace(f.Name(), ".", "_", -1), "-", "_", -1))
 		fo, e := os.OpenFile(root+"views/"+name+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if e != nil {
 			fmt.Println("fo() failed:", e)
