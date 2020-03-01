@@ -31,6 +31,7 @@ func getFilelist(root string) {
 			strings.HasSuffix(f.Name(), ".css") ||
 			strings.HasSuffix(f.Name(), ".woff") ||
 			strings.HasSuffix(f.Name(), ".woff2") ||
+			strings.HasSuffix(f.Name(), ".jpeg") ||
 			strings.HasSuffix(f.Name(), ".svg")) {
 			// fmt.Println("skip ", f.Name())
 			return nil
