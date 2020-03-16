@@ -32,6 +32,7 @@ func getFilelist(root string) {
 			strings.HasSuffix(f.Name(), ".woff") ||
 			strings.HasSuffix(f.Name(), ".woff2") ||
 			strings.HasSuffix(f.Name(), ".jpeg") ||
+			strings.HasSuffix(f.Name(), ".png") ||
 			strings.HasSuffix(f.Name(), ".ico") ||
 			strings.HasSuffix(f.Name(), ".ttf") ||
 			strings.HasSuffix(f.Name(), ".ttc") ||
