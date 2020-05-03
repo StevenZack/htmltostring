@@ -26,11 +26,11 @@ func getFilelist(root string) {
 			return nil
 		}
 		switch filepath.Ext(path) {
-		case ".html", ".js", ".css", "tis", ".svg", ".jpeg", ".png", ".ico":
+		case ".html", ".js", ".css", "tis", ".svg", ".jpeg", ".png", ".ico", "woff", "woff2", "ttf", "ttc", ".glade":
 		default:
 			return nil
 		}
-		name := strToolkit.ToCamelCase(strings.Replace(f.Name(), ".", "_", -1))
+		name := strToolkit.ToCamelCase(strings.Replace(strings.Replace(f.Name(), ".", "_", -1), "-", "_", -1))
 		fo, e := os.OpenFile(root+"views/"+name+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if e != nil {
 			fmt.Println("fo() failed:", e)
