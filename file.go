@@ -26,7 +26,7 @@ func getFilelist(root string) {
 			return nil
 		}
 		switch filepath.Ext(path) {
-		case ".html", ".js", ".css", "tis", ".svg", ".jpeg", ".png":
+		case ".html", ".js", ".css", "tis", ".svg", ".jpeg", ".png", ".ico":
 		default:
 			return nil
 		}
