@@ -25,8 +25,9 @@ func getFilelist(root string) {
 		if f.IsDir() {
 			return nil
 		}
-		if !strings.HasSuffix(f.Name(), ".html") && !strings.HasSuffix(f.Name(), ".js") && !strings.HasSuffix(f.Name(), ".tis") && !strings.HasSuffix(f.Name(), ".css") && !strings.HasSuffix(f.Name(), ".svg") {
-			// fmt.Println("skip ", f.Name())
+		switch filepath.Ext(path) {
+		case ".html", ".js", ".css", "tis", ".svg", ".jpeg", ".png":
+		default:
 			return nil
 		}
 		name := strToolkit.ToCamelCase(strings.Replace(f.Name(), ".", "_", -1))
