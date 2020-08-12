@@ -3,9 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
-
-	"github.com/StevenZack/htmltostring/logx"
 )
 
 var (
@@ -32,7 +31,7 @@ func main() {
 
 	e = rangeRes(getrpath(d))
 	if e != nil {
-		logx.Error(e)
+		log.Println(e)
 		return
 	}
 

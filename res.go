@@ -1,11 +1,10 @@
 package main
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/StevenZack/htmltostring/logx"
 )
 
 var resMap = make(map[string]string)
@@ -28,13 +27,13 @@ func rangeRes(root string) error {
 
 		input, e := readFile(path)
 		if e != nil {
-			logx.Error(e)
+			log.Println(e)
 			return e
 		}
 
 		relative, e := getRelativePath(path)
 		if e != nil {
-			logx.Error(e)
+			log.Println(e)
 			return e
 		}
 

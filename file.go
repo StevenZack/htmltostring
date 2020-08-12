@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
 
 	"github.com/StevenZack/tools/strToolkit"
-
-	"github.com/StevenZack/htmltostring/logx"
 )
 
 func getFilelist(root string) {
@@ -48,25 +47,25 @@ var Bytes_` + name + " =[]byte{")
 		if *templateUse {
 			input, e := readFile(path)
 			if e != nil {
-				logx.Error(e)
+				log.Println(e)
 				return e
 			}
 			tpl, e := template.New("name").Parse(input)
 			if e != nil {
-				logx.Error(e)
+				log.Println(e)
 				return e
 			}
 			tpl.Execute(fo, resMap)
 		} else {
 			fi, e := os.OpenFile(path, os.O_RDONLY, 0644)
 			if e != nil {
-				logx.Error(e)
+				log.Println(e)
 				return e
 			}
 			defer fi.Close()
 			bs, e := ioutil.ReadAll(fi)
 			if e != nil {
-				logx.Error(e)
+				log.Println(e)
 				return e
 			}
 			fo.WriteString(stringifyBytes(bs))

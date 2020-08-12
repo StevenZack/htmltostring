@@ -3,11 +3,10 @@ package main
 import (
 	"errors"
 	"io/ioutil"
+	"log"
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/StevenZack/htmltostring/logx"
 )
 
 func getrpath(p string) string {
@@ -38,14 +37,14 @@ func getFirstName(s string) string {
 func readFile(fname string) (string, error) {
 	f, e := os.OpenFile(fname, os.O_RDONLY, 0644)
 	if e != nil {
-		logx.Error(e)
+		log.Println(e)
 		return "", e
 	}
 	defer f.Close()
 
 	b, e := ioutil.ReadAll(f)
 	if e != nil {
-		logx.Error(e)
+		log.Println(e)
 		return "", e
 	}
 	return string(b), nil
@@ -54,7 +53,7 @@ func readFile(fname string) (string, error) {
 func getRelativePath(path string) (string, error) {
 	wd, e := os.Getwd()
 	if e != nil {
-		logx.Error(e)
+		log.Println(e)
 		return "", e
 	}
 
