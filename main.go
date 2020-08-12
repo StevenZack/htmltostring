@@ -5,27 +5,34 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 var (
 	templateUse = flag.Bool("t", false, "Use template engine")
+	dir         = flag.String("dir", "", "Directory")
 )
 
+func init() {
+	log.SetFlags(log.Lshortfile)
+}
 func main() {
 	flag.Parse()
-	fmt.Println("started..")
+	log.Println("started..")
 
-	if len(os.Args) > 1 {
-		for _, v := range os.Args[1:] {
-			parseFile(v)
-		}
-		return
-	}
 	d, e := os.Getwd()
 	if e != nil {
-		fmt.Println("getwd() failed:", e)
+		log.Println("getwd() failed:", e)
 		return
 	}
+	if len(*dir) > 0 {
+		d, e = filepath.Abs(*dir)
+		if e != nil {
+			log.Println(e)
+			return
+		}
+	}
+	fmt.Println(d)
 	os.RemoveAll(getrpath(d) + "views")
 	os.MkdirAll(getrpath(d)+"views", 0755)
 

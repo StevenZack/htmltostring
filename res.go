@@ -21,7 +21,7 @@ func rangeRes(root string) error {
 			return nil
 		}
 		if !strings.HasSuffix(f.Name(), ".html") && !strings.HasSuffix(f.Name(), ".js") && !strings.HasSuffix(f.Name(), ".tis") && !strings.HasSuffix(f.Name(), ".css") && !strings.HasSuffix(f.Name(), ".svg") {
-			// fmt.Println("skip ", f.Name())
+			// log.Println("skip ", f.Name())
 			return nil
 		}
 
