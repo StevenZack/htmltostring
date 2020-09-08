@@ -10,7 +10,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/StevenZack/tools/strToolkit"
+	"github.com/iancoleman/strcase"
 )
 
 func getFilelist(root string) {
@@ -29,7 +29,7 @@ func getFilelist(root string) {
 		default:
 			return nil
 		}
-		name := strToolkit.ToCamelCase(strings.Replace(strings.Replace(f.Name(), ".", "_", -1), "-", "_", -1))
+		name := strcase.ToCamel(strings.Replace(strings.Replace(f.Name(), ".", "_", -1), "-", "_", -1))
 		fo, e := os.OpenFile(root+"views/"+name+".go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if e != nil {
 			log.Println("fo() failed:", e)
